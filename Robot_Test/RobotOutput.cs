@@ -8,24 +8,24 @@ namespace Robot_Test
 {
     class RobotOutput
     {
-        public void OutputGrid(string[] table)
+        public static void OutputGrid(string[] table)
         {
-            int position = 0;
-
-            string rowsplit = ("__________");
-
-            Console.Write(rowsplit);
+            int position = 1;
 
             foreach(var cell in table)
             {
-                Console.Write(cell);
                 Console.Write("|");
-                if (position % 4 == 0)
-                    Console.WriteLine(rowsplit);
+                if (cell != null)
+                    Console.Write(cell);
+                else
+                    Console.Write("_");
 
+                if (position % 5 == 0)
+                    Console.Write("|\n");
+                
                 position++;
             }
-
+            Console.WriteLine();
 
         }
 

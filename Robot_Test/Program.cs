@@ -11,13 +11,17 @@ namespace Robot_Test
         static void Main(string[] args)
         {
             // storage
-            string[] myTable = new string[24];
-            
-            Console.WriteLine("Hugh Wilkie - Robot Test - Sun 8 May, 2.32 pm");
-            IntroMessage();
+            string[] myTable = new string[25];
+            int currentCell = 0;
+            string currentDirection = "EAST";
 
-            RobotControls.ReadInput();
-           // RobotOutput.
+            IntroMessage();
+            myTable = RobotControls.PlaceRobotOnGrid(myTable, 0, 3, ref currentCell, ref currentDirection);
+            //RobotControls.ReadInput();
+            RobotOutput.OutputGrid(myTable);
+            myTable = RobotControls.MoveRobot(myTable, ref currentCell, currentDirection);
+            RobotOutput.OutputGrid(myTable);
+
             Console.ReadKey();
             
         }
@@ -27,6 +31,8 @@ namespace Robot_Test
         {
             StringBuilder sb = new StringBuilder();
 
+            Console.WriteLine("Hugh Wilkie - Robot Test - Sun 8 May, 2.32 pm");
+            sb.AppendLine();
             sb.AppendLine("Controls");
             sb.AppendLine("PLACE - places the robot at the x,y,direction point on the table");
             sb.AppendLine("MOVE -  moves the robot forward one cell in the direction that it is facing");

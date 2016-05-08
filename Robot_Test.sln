@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot_Test", "Robot_Test\Robot_Test.csproj", "{B6495EB3-2DB8-49A8-ADCC-C5616F8EA6E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot_Test_UnitTests", "Robot_Test_UnitTests\Robot_Test_UnitTests.csproj", "{C91C18EB-2700-4575-BDAA-12AC8B80B532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B6495EB3-2DB8-49A8-ADCC-C5616F8EA6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6495EB3-2DB8-49A8-ADCC-C5616F8EA6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6495EB3-2DB8-49A8-ADCC-C5616F8EA6E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91C18EB-2700-4575-BDAA-12AC8B80B532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91C18EB-2700-4575-BDAA-12AC8B80B532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91C18EB-2700-4575-BDAA-12AC8B80B532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91C18EB-2700-4575-BDAA-12AC8B80B532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
