@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 
 namespace Robot_Test
 {
-    class RobotControls
+    public class RobotControls
     {
         public static string[] PlaceRobotOnGrid(string[] table, int x, int y, ref int currentCell, ref string currentDirection)
         {
             int arrayToGrid = 0;
 
-            arrayToGrid = ((x * 5) + y);
+            if (x >= 0 && x <= 4)
+                if (y >= 0 && y <= 4) {
 
-            if (!(arrayToGrid > 24))
-            {
-                table[arrayToGrid] = currentDirection.Substring(0, 1);
-                currentCell = arrayToGrid;
-            }
-                
+                    arrayToGrid = ((x * 5) + y);
+
+                    if (!(arrayToGrid > 24))
+                    {
+                        table[arrayToGrid] = currentDirection.Substring(0, 1);
+                        currentCell = arrayToGrid;
+                    }
+                }
+
             return table;
         }
 
@@ -27,18 +31,20 @@ namespace Robot_Test
         {
             switch (currentDirection.ToUpper()) {
                 case "NORTH":
-                    if ((currentCell - 5) <= 0)
+                    if ((currentCell + 5) <= 24)
                     {
-                        table[currentCell - 5] = table[currentCell];
+                        table[currentCell + 5] = table[currentCell];
                         table[currentCell] = null;
+                        currentCell = currentCell + 5;
                     }
                     break;
 
                 case "SOUTH":
-                    if((currentCell + 5) <= 24)
+                    if((currentCell - 5) >= 0)
                     {
-                        table[currentCell + 5] = table[currentCell];
+                        table[currentCell - 5] = table[currentCell];
                         table[currentCell] = null;
+                        currentCell = currentCell - 5;
                     }
                     break;
 
@@ -47,6 +53,7 @@ namespace Robot_Test
                     {
                         table[currentCell + 1] = table[currentCell];
                         table[currentCell] = null;
+                        currentCell = currentCell + 1;
                     } else { Console.Write("CANNOT MOVE WILL FALL OFF TABLE"); }
                     break;
 
@@ -55,6 +62,7 @@ namespace Robot_Test
                     {
                         table[currentCell + 5] = table[currentCell];
                         table[currentCell] = null;
+                        currentCell = currentCell - 1;
                     }
                     break;
             }
@@ -62,29 +70,6 @@ namespace Robot_Test
             return table;
         }
 
-
-        // used for file input type
-        public static List<string> ReadInput()
-        {
-            List<string> input = new List<string>();
-
-            string userInput = "";
-
-            while (userInput != "REPORT")
-            {
-                userInput = Console.ReadLine().ToUpper();
-
-                input.Add(userInput);
-            }
-
-            foreach (var word in input)
-            {
-                Console.WriteLine(word);
-            }
-
-            return input;
-
-        }
 
     }
 }
