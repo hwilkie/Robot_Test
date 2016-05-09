@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Robot_Test;
+using System.Collections.Generic;
 
 namespace Robot_Test_UnitTests
 {
@@ -100,5 +101,98 @@ namespace Robot_Test_UnitTests
 
             CollectionAssert.AreEqual(actual, expected);
         }
+
+        [TestMethod]
+        public void TestLeftTurn()
+        {
+            int currentCell = 12;
+            string currentDirection = "NORTH";
+
+            string[] table = new string[25];
+            table[12] = "N";
+            string[] expected = new string[25];
+            expected[12] = "W";
+
+            string[] actual = RobotControls.TurnRobot(table, currentCell, ref currentDirection, "LEFT");
+
+            CollectionAssert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void TestInvalidLeftTurn()
+        {
+            int currentCell = 12;
+            string currentDirection = "NORTH";
+
+            string[] table = new string[25];
+            table[12] = "N";
+            string[] expected = new string[25];
+            expected[12] = "E";
+
+            string[] actual = RobotControls.TurnRobot(table, currentCell, ref currentDirection, "LEFT");
+
+            CollectionAssert.AreNotEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void TestRightTurn()
+        {
+            int currentCell = 12;
+            string currentDirection = "NORTH";
+
+            string[] table = new string[25];
+            table[12] = "N";
+            string[] expected = new string[25];
+            expected[12] = "E";
+
+            string[] actual = RobotControls.TurnRobot(table, currentCell, ref currentDirection, "RIGHT");
+
+            CollectionAssert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void TestInvalidRightTurn()
+        {
+            int currentCell = 12;
+            string currentDirection = "NORTH";
+
+            string[] table = new string[25];
+            table[12] = "N";
+            string[] expected = new string[25];
+            expected[12] = "W";
+
+            string[] actual = RobotControls.TurnRobot(table, currentCell, ref currentDirection, "RIGHT");
+
+            CollectionAssert.AreNotEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void TestValidateInput()
+        {
+            string input = "PLACE 0,1,NORTH";
+
+            List<string> expected = new List<string>();
+            expected.Add("PLACE");
+            expected.Add("0");
+            expected.Add("1");
+            expected.Add("NORTH");
+
+            List<string> actual = Program.validateInput(input);
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestInvalidValidateInput()
+        {
+            string input = "thisisinvalidinput";
+
+            List<string> expected = null;
+
+            List<string> actual = Program.validateInput(input);
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
     }
 }

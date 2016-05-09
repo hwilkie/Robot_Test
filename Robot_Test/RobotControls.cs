@@ -17,6 +17,8 @@ namespace Robot_Test
 
                     arrayToGrid = ((x * 5) + y);
 
+                    table[currentCell] = null;
+
                     if (!(arrayToGrid > 24))
                     {
                         table[arrayToGrid] = currentDirection.Substring(0, 1);
@@ -54,7 +56,7 @@ namespace Robot_Test
                         table[currentCell + 1] = table[currentCell];
                         table[currentCell] = null;
                         currentCell = currentCell + 1;
-                    } else { Console.Write("CANNOT MOVE WILL FALL OFF TABLE"); }
+                    }
                     break;
 
                 case "WEST":
@@ -70,6 +72,43 @@ namespace Robot_Test
             return table;
         }
 
+        public static string[] TurnRobot(string[] table, int currentCell, ref string currentDirection, string turnDirection)
+        {
 
+
+            switch (currentDirection) {
+
+                case "NORTH":
+                    if (turnDirection == "LEFT")
+                        currentDirection = "WEST";
+                    else
+                        currentDirection = "EAST";
+                    break;
+
+                case "WEST":
+                    if (turnDirection == "LEFT")
+                        currentDirection = "SOUTH";
+                    else
+                        currentDirection = "NORTH";
+                    break;
+
+                case "SOUTH":
+                    if (turnDirection == "LEFT")
+                        currentDirection = "EAST";
+                    else
+                        currentDirection = "WEST";
+                    break;
+
+                case "EAST":
+                    if (turnDirection == "LEFT")
+                        currentDirection = "NORTH";
+                    else
+                        currentDirection = "SOUTH";
+                    break;
+            }
+
+            table[currentCell] = currentDirection.Substring(0, 1);
+            return table;
+        }
     }
 }

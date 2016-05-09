@@ -20,134 +20,142 @@ namespace Robot_Test
             // storage
             string[] myTable = new string[25];
             int currentCell = 0;
+            int x = 0, y = 0;
             string currentDirection = null;
             string nextInst = null;
 
-            RobotOutput.OutputGrid(myTable);
+            bool showTable = false;
+            bool placed = false;
+
+            // show table?
+            Console.WriteLine("Would you like to see the table? (Y/N)");
+            string ans = Console.ReadLine();
+            if(ans.ToUpper() == "Y") 
+                showTable = true;
+
+             
 
             while (nextInst != "REPORT")
             {
                 nextInst = Console.ReadLine();
+                nextInst = nextInst.ToUpper();
 
-                if (nextInst.Substring(0, 5) == "PLACE")
+                List<string> validInput = validateInput(nextInst);
+
+                if (validInput != null)
                 {
-                    int x;
-                    int.TryParse(nextInst.Substring(6, 1), out x);
-                    int y;
-                    int.TryParse(nextInst.Substring(8, 1), out y);
+                    if (validInput.Count == 4)
+                    {
+                        x = int.Parse(validInput[1]);
+                        y = int.Parse(validInput[2]);
+                        currentDirection = validInput[3];
+                    }
+                    if (validInput[0].ToUpper() == "PLACE")
+                    {
+                        myTable = RobotControls.PlaceRobotOnGrid(myTable, x, y, ref currentCell, ref currentDirection);
+                        placed = true;
+                    }
+                    if (placed)
+                    {
+                        if (validInput[0].ToUpper() == "MOVE")
+                        {
+                            RobotControls.MoveRobot(myTable, ref currentCell, currentDirection);
+                        }
+                        else if (validInput[0].ToUpper() == "LEFT")
+                        {
+                            RobotControls.TurnRobot(myTable, currentCell, ref currentDirection, "LEFT");
+                        }
+                        else if (validInput[0].ToUpper() == "RIGHT")
+                        {
+                            RobotControls.TurnRobot(myTable, currentCell, ref currentDirection, "RIGHT");
+                        }
+                        else if (validInput[0].ToUpper() == "REPORT")
+                        {
+                            int xReport = currentCell % 5;
+                            int yReport = currentCell / 5;
 
-                    validateInput(nextInst.Substring(0, 4));
-                    myTable = RobotControls.PlaceRobotOnGrid(myTable, 0, 3, ref currentCell, ref currentDirection);
-                }
-                else if (nextInst.Substring(0, 4) == "MOVE"){
-                    RobotControls.MoveRobot(myTable, ref currentCell, currentDirection);
+                            Console.WriteLine(xReport + "," + yReport + "," + currentDirection);
+                        } 
+                    }
                     
+                    if (showTable && validInput[0].ToUpper() != "REPORT")
+                        RobotOutput.OutputGrid(myTable);
+
+                    validInput.Clear();
                 }
-                else if (nextInst.Substring(0, 4) == "LEFT") {
-                    RobotControls.
-                }
-                else if (nextInst.Substring(0, 5) == "RIGHT")
-                {
-
-                }
-                else if (nextInst.Substring(0, 6) == "REPORT")
-                {
-                    Console.WriteLine("REPOT GOES HERE");
-                }
-
-                
-                RobotOutput.OutputGrid(myTable);
-                myTable = RobotControls.MoveRobot(myTable, ref currentCell, currentDirection);
-                RobotOutput.OutputGrid(myTable);
-
-                string initialInput = Console.ReadLine();
-
-                List<string> valid = validateInput(initialInput);
-
-                if (valid.Count > 0)
-                {
-                    string command = valid[0];
-
-                    currentDirection = valid[3];
-                    RobotControls.PlaceRobotOnGrid(myTable, int.Parse(valid[1]), int.Parse(valid[2]), ref currentCell, ref currentDirection);
-                }
-
-
-
-                Console.Read();
-
             }
+            Console.Read();
+
+        }
 
         public static List<string> validateInput(string input)
         {
-            StringBuilder errorMessage = null;
+            StringBuilder errorMessage = new StringBuilder();
             List<string> avaliableDirections = new List<string>() { "NORTH", "SOUTH", "EAST", "WEST" };
-            List<string> avaliableCommands = new List<string>() { "PLACE", "LEFT", "RIGHT", "REPORT" };
+            List<string> avaliableCommands = new List<string>() { "PLACE", "LEFT", "RIGHT", "MOVE", "REPORT" };
             List<string> output = new List<string>();
 
             List<string> cmds = new List<string>(input.Split(' '));
 
-            if (cmds.Count > 2)
+            if (!avaliableCommands.Contains(cmds[0].ToUpper()))
             {
-                Console.WriteLine("Invalid Place Statement");
-                return null;
-            }
-
-            string command = cmds[0];
-            string tail = cmds[1];
-            string[] splitTail = tail.Split(',');
-
-            string xStr = null;
-            string yStr = null;
-            string direction = null;
-
-            if (splitTail.Count() == 3)
-            {
-                xStr = splitTail[0];
-                yStr = splitTail[1];
-                direction = splitTail[2];
-            }
-            else
-            {
-                Console.WriteLine("Invalid Place Statement");
-                return null;
-
-            }
-            int x, y;
-
-
-            if (!avaliableCommands.Contains(command))
                 errorMessage.AppendLine("Command is invalid, please try again");
-
-            if (command == "PLACE")
+                return null;
+            }
+            else if (input.Contains(" "))
             {
+                string command = cmds[0];
+                string tail = cmds[1];
+                string[] splitTail = tail.Split(',');
+
+                string xStr = null;
+                string yStr = null;
+                string direction = null;
+
+                if (splitTail.Count() == 3)
+                {
+                    xStr = splitTail[0];
+                    yStr = splitTail[1];
+                    direction = splitTail[2];
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Place Statement");
+                    return null;
+                }
+
+                int x, y;
+
                 if (!int.TryParse(xStr, out x))
                     errorMessage.AppendLine("x value is invalid, please try again");
-                else if (x > 5)
+                else if (x > 4)
                     errorMessage.AppendLine("x value is invalid, please try again");
                 if (!int.TryParse(yStr, out y))
                     errorMessage.AppendLine("y value is invalid, please try again");
-                else if (y > 5)
+                else if (y > 4)
                     errorMessage.AppendLine("y value is invalid, please try again");
+                else if (!avaliableDirections.Contains(direction.ToUpper()))
+                    errorMessage.AppendLine("direction is invalid, please try again");
 
-                if (!avaliableDirections.Contains(direction))
-                    errorMessage.AppendLine("direction value is invalid, please try again");
+                if (errorMessage.ToString() == "")
+                {
+                    output.Add(command);
+                    output.Add(xStr);
+                    output.Add(yStr);
+                    output.Add(direction.ToUpper());
+                    return output;
+                }
+                else
+                {
+                    Console.WriteLine(errorMessage.ToString());
+                    return null;
+                }
             }
-
-            if (errorMessage == null)
-            {
-                output.Add(command);
-                output.Add(xStr);
-                output.Add(yStr);
-                output.Add(direction);
-                return output;
-            }
-
-
-            Console.WriteLine(errorMessage.ToString());
-
-            return null;
+            output.Add(input);
+            return output;
         }
+
+
 
 
         static void IntroMessage()
@@ -165,7 +173,6 @@ namespace Robot_Test
             sb.AppendLine();
             Console.Write(sb.ToString());
         }
-
 
 
     }

@@ -10,23 +10,6 @@ namespace Robot_Test
     {
         public static void OutputGrid(string[] table)
         {
-            //int position = 0;
-
-            //foreach(var cell in table)
-            //{
-            //    Console.Write("|");
-            //    if (cell != null)
-            //        Console.Write(cell);
-            //    else
-            //        Console.Write("_");
-
-            //    if (position % 5 == 0)
-            //        Console.Write("|\n");
-
-            //    position++;
-            //}
-            //Console.WriteLine();
-
             int arrayIdx = 20;
             int col = 0;
 
@@ -45,7 +28,5 @@ namespace Robot_Test
             }
             Console.WriteLine();
         }
-
-
     }
 }
